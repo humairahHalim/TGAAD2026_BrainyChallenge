@@ -22,11 +22,11 @@ class Txtfield extends StatelessWidget {
       height: 55,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.blue,
+          color: Colors.lightBlue,
           width: 2.0,
         ),
         borderRadius: BorderRadius.circular(30.0),
-        color: Colors.white,
+        color: Colors.transparent,
       ),
       child: TextField(
         obscureText: obscureText,

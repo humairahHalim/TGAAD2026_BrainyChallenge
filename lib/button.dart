@@ -13,9 +13,11 @@ class myButton extends StatelessWidget {
       child: Container(
         height: 55,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
-          borderRadius: BorderRadius.circular(30.0),
-        ),
+            color: Colors.lightBlue[100],
+            borderRadius: BorderRadius.circular(30.0),
+            border: Border.all(
+              color: Colors.lightBlueAccent,
+            )),
         child: Center(child: Text(text)),
       ),
     );

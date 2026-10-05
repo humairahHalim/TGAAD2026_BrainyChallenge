@@ -293,32 +293,45 @@ class _WordSearchState extends State<WordSearch> {
             'Find words related to Top Glove!',
             style: TextStyle(
               //fontFamily: GoogleFonts.
-              fontSize: 50,
+              fontSize: 30,
             ),
           ),
           SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              Text('Words left:'),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                (targetWords.length - foundWords.length).toString(),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Text('You found:'),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                foundWords.length.toString(),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                const Text(
+                  'Words left:',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  (targetWords.length - foundWords.length).toString(),
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.amber,
+                  ),
+                ),
+                /** SizedBox(
+                  width: 5,
+                ),
+                Text('You found:'),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  foundWords.length.toString(),
+                ),
+                */
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           // Grid Area
