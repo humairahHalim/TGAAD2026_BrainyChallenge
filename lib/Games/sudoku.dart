@@ -81,8 +81,24 @@ class _SudokuState extends State<Sudoku> {
     _startTimer();
   }
 
+  final Stopwatch _stopwatch = Stopwatch();
+
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _stopwatch.start();
+    // Tick every 16ms (~60 FPS) to keep the UI updating smoothly
+    _timer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
+      setState(() {}); // Triggers UI rebuild to fetch elapsed time
+    });
+  }
+
+  void _stopTimer() {
+    _stopwatch.stop();
+    _timer?.cancel();
+  }
+
+/** 
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(milliseconds: 1), (timer) {
       if (!_isCompleted) {
         setState(() {
           _secondsElapsed++;
@@ -90,7 +106,7 @@ class _SudokuState extends State<Sudoku> {
       }
     });
   }
-
+*/
   @override
   void dispose() {
     _timer.cancel(); // Prevent memory leaks when navigating away
@@ -162,14 +178,13 @@ class _SudokuState extends State<Sudoku> {
         }
       }
     }
-
-    // Board solved!
     _timer.cancel();
     setState(() {
       _isCompleted = true;
     });
 
     _submitTimeToFirebase();
+    // Board solved!
   }
 
   // --- 2. Submit Time to Firebase Realtime Database ---
@@ -184,7 +199,7 @@ class _SudokuState extends State<Sudoku> {
       await dbRef.child('leaderboard/${widget.badgeId}').update({
         'name': widget.name,
         'badgeId': widget.badgeId,
-        'timeTakenSeconds': _secondsElapsed,
+        'sudokuScore': _secondsElapsed,
         'completedAt': ServerValue.timestamp,
       });
     } catch (e) {
@@ -198,10 +213,14 @@ class _SudokuState extends State<Sudoku> {
     }
   }
 
-  String get _formattedTime {
-    final minutes = (_secondsElapsed ~/ 60).toString().padLeft(2, '0');
-    final seconds = (_secondsElapsed % 60).toString().padLeft(2, '0');
-    return "$minutes:$seconds";
+  String formattedTime(int time) {
+    //final totalMicroseconds = _stopwatch.elapsedMicroseconds;
+
+    final seconds = time ~/ 1000000;
+    final microseconds = time % 1000000;
+    final ms3Digit = ((time % 1000000) ~/ 1000).toString().padLeft(3, '0');
+
+    return '${seconds}:${ms3Digit}';
   }
 
   void _showSuccessDialog() {
@@ -211,7 +230,7 @@ class _SudokuState extends State<Sudoku> {
       builder: (context) => AlertDialog(
         title: const Text('🎉 Congratulations!'),
         content: Text(
-            'You completed the Sudoku puzzle in $_formattedTime.\nYour score has been submitted to Firebase!'),
+            'You completed the Sudoku puzzle in ${formattedTime(_stopwatch.elapsedMicroseconds)}.\nYour score has been submitted to Firebase!'),
         actions: [
           TextButton(
             onPressed: () {
@@ -230,11 +249,12 @@ class _SudokuState extends State<Sudoku> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(Icons.timer_outlined, color: Colors.blue),
             const SizedBox(width: 6),
             Text(
-              _formattedTime,
+              formattedTime(_stopwatch.elapsedMicroseconds),
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
           ],

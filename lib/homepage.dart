@@ -60,7 +60,8 @@ class Homepage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Crossword(
-                              badgeID: badgeID,
+                              badgeId: badgeID,
+                              name: name,
                             )),
                   );
                 },

@@ -21,24 +21,25 @@ class WordSearch extends StatefulWidget {
 class _WordSearchState extends State<WordSearch> {
   // 10x10 Static Word Search Grid
   final List<List<String>> grid = [
-    ['F', 'L', 'U', 'T', 'T', 'E', 'R', 'K', 'T', 'V'],
+    ['F', 'L', 'U', 'T', 'H', 'E', 'L', 'M', 'E', 'T'],
     ['D', 'A', 'R', 'T', 'X', 'Y', 'Z', 'O', 'N', 'I'],
-    ['W', 'I', 'D', 'G', 'E', 'T', 'E', 'A', 'R', 'S'],
-    ['S', 'T', 'A', 'T', 'E', 'O', 'I', 'B', 'N', 'P'],
-    ['G', 'U', 'Z', 'G', 'A', 'I', 'C', 'T', 'S', 'K'],
-    ['H', 'R', 'J', 'B', 'Z', 'S', 'D', 'O', 'E', 'L'],
-    ['R', 'S', 'I', 'U', 'V', 'W', 'X', 'Y', 'Z', 'A'],
-    ['E', 'N', 'D', 'D', 'S', 'N', 'H', 'T', 'Y', 'K'],
-    ['L', 'U', 'P', 'O', 'T', 'A', 'W', 'S', 'B', 'R'],
-    ['V', 'M', 'E', 'Q', 'Z', 'A', 'B', 'C', 'D', 'E'],
+    ['W', 'N', 'D', 'G', 'E', 'T', 'E', 'A', 'R', 'H'],
+    ['S', 'Z', 'I', 'T', 'O', 'P', 'P', 'Y', 'N', 'E'],
+    ['R', 'U', 'X', 'T', 'A', 'I', 'C', 'T', 'S', 'A'],
+    ['I', 'R', 'J', 'V', 'R', 'S', 'D', 'O', 'E', 'L'],
+    ['V', 'S', 'I', 'U', 'M', 'I', 'X', 'Y', 'Z', 'T'],
+    ['E', 'N', 'D', 'D', 'S', 'O', 'L', 'T', 'Y', 'H'],
+    ['R', 'U', 'P', 'O', 'T', 'A', 'K', 'E', 'B', 'Y'],
+    ['V', 'Q', 'U', 'A', 'L', 'I', 'T', 'Y', 'D', 'E'],
   ];
 
   List<String> targetWords = [
-    'FLUTTER',
-    'DART',
-    'WIDGET',
-    'STATE',
-    'GRID',
+    'TOPPY',
+    'HEALTHY',
+    'NITRILE',
+    'HELMET',
+    'RIVER',
+    'QUALITY',
   ];
 
   late Set<Point<int>> selectedCells;
@@ -69,15 +70,35 @@ class _WordSearchState extends State<WordSearch> {
     _timer?.cancel();
     super.dispose();
   }
-
+/** 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(microseconds: 1), (timer) {
       if (!isGameFinished) {
         setState(() {
           secondsElapsed++;
         });
       }
     });
+  }
+  */
+
+  final Stopwatch _stopwatch = Stopwatch();
+
+  void _startTimer() {
+    _stopwatch.start();
+    // Tick every 16ms (~60 FPS) to keep the UI updating smoothly
+    _timer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
+      if (!isGameFinished) {
+        setState(() {}); // Triggers UI rebuild to fetch elapsed time
+      } else {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  void _stopTimer() {
+    _stopwatch.stop();
+    _timer?.cancel();
   }
 
   Future<void> _endGameAndSubmit() async {
@@ -87,7 +108,7 @@ class _WordSearchState extends State<WordSearch> {
       isSubmitting = true;
     });
 
-    final int finalScoreTime = secondsElapsed;
+    final int finalScoreTime = _stopwatch.elapsedMicroseconds;
 
     try {
       // Firebase Realtime Database update using badgeId as key
@@ -96,7 +117,7 @@ class _WordSearchState extends State<WordSearch> {
         'name': widget.name,
         'badgeId': widget.badgeId,
         'wordSearchScore': finalScoreTime,
-        'completedAt': ServerValue.timestamp,
+        'wordSearchcompletedAt': ServerValue.timestamp,
       });
     } catch (e) {
       debugPrint('Error writing score to Firebase: $e');
@@ -114,7 +135,7 @@ class _WordSearchState extends State<WordSearch> {
             title: const Text('🎉 Puzzle Completed!'),
             content: Text(
               'Great job, ${widget.name}!\n\n'
-              'Time Taken: $finalScoreTime seconds\n'
+              'Time Taken: ${formattedTime(finalScoreTime)} seconds\n'
               'Your score has been updated in the leaderboard.',
             ),
             actions: [
@@ -214,6 +235,16 @@ class _WordSearchState extends State<WordSearch> {
 
   // --- UI Build ---
 
+  String formattedTime(int time) {
+    //final totalMicroseconds = _stopwatch.elapsedMicroseconds;
+
+    final seconds = time ~/ 1000000;
+    final microseconds = time % 1000000;
+    final ms3Digit = ((time % 1000000) ~/ 1000).toString().padLeft(3, '0');
+
+    return '${seconds}:${ms3Digit}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,7 +255,7 @@ class _WordSearchState extends State<WordSearch> {
             const Icon(Icons.timer_outlined, color: Colors.blue),
             const SizedBox(width: 8),
             Text(
-              'Time: ${secondsElapsed}s',
+              'Time: ${formattedTime(_stopwatch.elapsedMicroseconds)}s',
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -233,8 +264,7 @@ class _WordSearchState extends State<WordSearch> {
             ),
           ],
         ),
-        centerTitle: true,
-        automaticallyImplyLeading: false, // Prevents backing out accidentally
+        centerTitle: true, // Prevents backing out accidentally
       ),
       body: Column(
         children: [
@@ -289,15 +319,15 @@ class _WordSearchState extends State<WordSearch> {
           
 
           */
-          Text(
-            'Find words related to Top Glove!',
-            style: TextStyle(
-              //fontFamily: GoogleFonts.
-              fontSize: 30,
+          const Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              'Find words related to Top Glove!',
+              style: TextStyle(
+                //fontFamily: GoogleFonts.
+                fontSize: 30,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
