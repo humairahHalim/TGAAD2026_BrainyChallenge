@@ -49,7 +49,7 @@ class ScorePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Your ${game} score: ${score}s',
+                'Your score: ${score}s',
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -60,10 +60,6 @@ class ScorePage extends StatelessWidget {
               myButton(
                 text: 'Back to Home',
                 onTap: () => Navigator.pop(context),
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Back to Home'),
               ),
             ],
           ),

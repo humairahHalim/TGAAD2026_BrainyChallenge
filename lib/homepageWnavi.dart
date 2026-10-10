@@ -2,9 +2,11 @@ import 'package:brainy_challenge/Games/crossword.dart';
 import 'package:brainy_challenge/Games/wordSearch.dart';
 import 'package:brainy_challenge/Games/sudoku.dart';
 import 'package:brainy_challenge/Widgets/button.dart';
+import 'package:brainy_challenge/Widgets/carouselCard.dart';
 import 'package:brainy_challenge/scorePage.dart'; // Make sure to create/import your ScorePage
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Homepage2 extends StatefulWidget {
   Homepage2({
@@ -22,6 +24,14 @@ class Homepage2 extends StatefulWidget {
 
 class _Homepage2State extends State<Homepage2> {
   bool isLoading = false;
+
+  final CarouselController controller = CarouselController(initialItem: 1);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   /// Checks Firebase for existing score before navigating
   Future<void> _handleGameNavigation(
@@ -76,7 +86,22 @@ class _Homepage2State extends State<Homepage2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome, ${widget.name}'),
+        titleSpacing: 5,
+        toolbarHeight: 55,
+        title: Expanded(
+          child: Column(
+            children: [
+              Text(
+                'Welcome to Brainy Challenge',
+                style: GoogleFonts.playfairDisplay(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600),
+              ),
+              //Text('Brainy Challenge!'),
+            ],
+          ),
+        ),
         centerTitle: true,
       ),
       body: Stack(
@@ -88,6 +113,7 @@ class _Homepage2State extends State<Homepage2> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  /** 
                   myButton(
                     text: 'Sudoku',
                     onTap: () {
@@ -129,6 +155,57 @@ class _Homepage2State extends State<Homepage2> {
                       );
                     },
                   ),
+
+                  */
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 300),
+                    child: CarouselView(
+                      itemExtent: 350,
+                      controller: controller,
+                      itemSnapping: true,
+                      onTap: (int index) {
+                        final myCard = myCarouselCard.values[index];
+
+                        switch (myCard) {
+                          case myCarouselCard.game1:
+                            _handleGameNavigation(
+                              context,
+                              gameWidget: Sudoku(
+                                badgeId: widget.badgeID,
+                                name: widget.name,
+                              ),
+                              game: 'sudoku',
+                            );
+                            break;
+                          case myCarouselCard.game2:
+                            _handleGameNavigation(
+                              context,
+                              gameWidget: WordSearch(
+                                badgeId: widget.badgeID,
+                                name: widget.name,
+                              ),
+                              game: 'wordSearch',
+                            );
+                            break;
+                          case myCarouselCard.game3:
+                            _handleGameNavigation(
+                              context,
+                              gameWidget: Crossword(
+                                badgeId: widget.badgeID,
+                                name: widget.name,
+                              ),
+                              game: 'crossword',
+                            );
+                            break;
+                        }
+                      },
+                      children:
+                          myCarouselCard.values.map((myCarouselCard myCard) {
+                        // Clean children list without GestureDetector
+                        return HeroLayoutCard(myCard: myCard);
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -147,9 +224,22 @@ class _Homepage2State extends State<Homepage2> {
 }
 
 enum myCarouselCard {
-  game1('', 'Sudoku');
+  game1(
+    'https://cdn-icons-png.flaticon.com/256/7399/7399655.png',
+    'Sudoku',
+  ),
+
+  game2(
+    'https://play-lh.googleusercontent.com/KdXrqpLJ25ZiUEjg9IHgawlf9p4JROjHfnclRAijI_5RKIaAC5zuazvDBv2Rkx0EsBa348CEZGMw0GWGYhhLVQ=s0-br30',
+    'Word Search',
+  ),
+  game3(
+    'https://cdn-icons-png.flaticon.com/512/2247/2247617.png',
+    'Cross Word',
+  );
 
   const myCarouselCard(this.picture, this.title);
   final String picture;
   final String title;
+  // final Function onTap;
 }
