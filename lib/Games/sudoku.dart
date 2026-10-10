@@ -191,6 +191,7 @@ class _SudokuState extends State<Sudoku> {
   Future<void> _submitTimeToFirebase() async {
     setState(() {
       _isSubmitting = true;
+      _showSuccessDialog();
     });
 
     try {
@@ -199,8 +200,8 @@ class _SudokuState extends State<Sudoku> {
       await dbRef.child('leaderboard/${widget.badgeId}').update({
         'name': widget.name,
         'badgeId': widget.badgeId,
-        'sudokuScore': _secondsElapsed,
-        'completedAt': ServerValue.timestamp,
+        'sudokuScore': _stopwatch.elapsedMicroseconds,
+        'sudokuCompletedAt': ServerValue.timestamp,
       });
     } catch (e) {
       debugPrint('Error writing score to Firebase: $e');

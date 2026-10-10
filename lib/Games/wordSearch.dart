@@ -21,7 +21,7 @@ class WordSearch extends StatefulWidget {
 class _WordSearchState extends State<WordSearch> {
   // 10x10 Static Word Search Grid
   final List<List<String>> grid = [
-    ['F', 'L', 'U', 'T', 'H', 'E', 'L', 'M', 'E', 'T'],
+    ['F', 'O', 'U', 'T', 'S', 'A', 'F', 'E', 'T', 'Y'],
     ['D', 'A', 'R', 'T', 'X', 'Y', 'Z', 'O', 'N', 'I'],
     ['W', 'N', 'D', 'G', 'E', 'T', 'E', 'A', 'R', 'H'],
     ['S', 'Z', 'I', 'T', 'O', 'P', 'P', 'Y', 'N', 'E'],
@@ -37,7 +37,7 @@ class _WordSearchState extends State<WordSearch> {
     'TOPPY',
     'HEALTHY',
     'NITRILE',
-    'HELMET',
+    'SAFETY',
     'RIVER',
     'QUALITY',
   ];

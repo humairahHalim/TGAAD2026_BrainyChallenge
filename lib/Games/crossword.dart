@@ -69,7 +69,7 @@ class _CrosswordPageState extends State<Crossword> {
     // Down Clues
     CrosswordClue(
       number: 2,
-      clue: 'Factory 18 is located in?',
+      clue: 'Other than Malaysia, Top Glove has factories in what country?',
       answer: 'THAILAND',
       startX: 3,
       startY: 2,
@@ -396,7 +396,7 @@ class _CrosswordPageState extends State<Crossword> {
                                   child: Text(
                                     '${numberGrid[r][c]}',
                                     style: const TextStyle(
-                                      fontSize: 9,
+                                      fontSize: 6,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black87,
                                     ),

@@ -1,10 +1,10 @@
 import 'package:brainy_challenge/Games/crossword.dart';
 import 'package:brainy_challenge/Games/wordSearch.dart';
-import 'package:brainy_challenge/button.dart';
+import 'package:brainy_challenge/Widgets/button.dart';
 import 'package:brainy_challenge/Games/sudoku.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   Homepage({
     required this.badgeID,
     required this.name,
@@ -13,6 +13,11 @@ class Homepage extends StatelessWidget {
   String badgeID;
   String name;
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +35,8 @@ class Homepage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Sudoku(
-                              badgeId: badgeID,
-                              name: name,
+                              badgeId: widget.badgeID,
+                              name: widget.name,
                             )),
                   );
                 },
@@ -46,8 +51,8 @@ class Homepage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => WordSearch(
-                              badgeId: badgeID,
-                              name: name,
+                              badgeId: widget.badgeID,
+                              name: widget.name,
                             )),
                   );
                 },
@@ -60,8 +65,8 @@ class Homepage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Crossword(
-                              badgeId: badgeID,
-                              name: name,
+                              badgeId: widget.badgeID,
+                              name: widget.name,
                             )),
                   );
                 },

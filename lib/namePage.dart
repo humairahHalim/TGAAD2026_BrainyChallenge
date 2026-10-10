@@ -1,7 +1,9 @@
 import 'package:brainy_challenge/homepage.dart';
+import 'package:brainy_challenge/homepageWnavi.dart';
+import 'package:brainy_challenge/leaderboard.dart';
 import 'package:flutter/material.dart';
-import 'txtfield.dart';
-import 'button.dart';
+import 'Widgets/txtfield.dart';
+import 'Widgets/button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -12,6 +14,51 @@ class namePage extends StatefulWidget {
   State<namePage> createState() => _namePageState();
 }
 
+/**
+ * ) async {
+    setState(() => isLoading = true);
+
+    try {
+      final DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+      final DataSnapshot snapshot =
+          await dbRef.child('leaderboard/${widget.badgeID}').get();
+
+      if (!context.mounted) return;
+
+      // If record exists and contains a completion time/score
+      if (snapshot.exists && snapshot.child('${game}Score').value != null) {
+        final data = Map<String, dynamic>.from(snapshot.value as Map);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScorePage(
+              badgeId: widget.badgeID,
+              name: widget.name,
+              scoreData: data,
+            ),
+          ),
+        );
+      } else {
+        // No score found -> Navigate to game
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => gameWidget),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error checking score: $e')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
+  }
+ */ /// reference to check if badgeid alr exist
+
 class _namePageState extends State<namePage> {
   Future<void> register({
     //FirebaseDatabase.instance.ref();
@@ -20,8 +67,31 @@ class _namePageState extends State<namePage> {
     required String badgeId,
     required String table,
   }) async {
-    if (badgeId == "admin123") {
+    final DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+    final DataSnapshot snapshot =
+        await dbRef.child('leaderboard/$badgeId').get();
+    if (badgeId == "admin123" && table == '123') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                LeaderboardPage()), // Replace with your target page
+      );
       //go to admin page
+    } else if (snapshot.exists) {
+      Homepage2(
+        badgeID: badgeId,
+        name: name,
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Homepage2(
+                  badgeID: badgeId,
+                  name: name,
+                )), // Replace with your target page
+      );
     } else {
       final DatabaseReference dbRef = FirebaseDatabase.instance.ref();
 
@@ -38,7 +108,7 @@ class _namePageState extends State<namePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Homepage(
+            builder: (context) => Homepage2(
                   badgeID: badgeId,
                   name: name,
                 )), // Replace with your target page
