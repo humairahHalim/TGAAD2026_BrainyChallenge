@@ -92,10 +92,10 @@ class _Homepage2State extends State<Homepage2> {
           child: Column(
             children: [
               Text(
-                'Welcome to Brainy Challenge',
+                'Brainy Challenge',
                 style: GoogleFonts.playfairDisplay(
                     fontStyle: FontStyle.italic,
-                    fontSize: 26,
+                    fontSize: 42,
                     fontWeight: FontWeight.w600),
               ),
               //Text('Brainy Challenge!'),

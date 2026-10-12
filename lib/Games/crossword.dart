@@ -414,7 +414,7 @@ class _CrosswordPageState extends State<Crossword> {
                                       TextCapitalization.characters,
                                   maxLength: 1,
                                   style: const TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   decoration: const InputDecoration(

@@ -231,7 +231,7 @@ class _SudokuState extends State<Sudoku> {
       builder: (context) => AlertDialog(
         title: const Text('🎉 Congratulations!'),
         content: Text(
-            'You completed the Sudoku puzzle in ${formattedTime(_stopwatch.elapsedMicroseconds)}.\nYour score has been submitted to Firebase!'),
+            'You completed the Sudoku puzzle in ${formattedTime(_stopwatch.elapsedMicroseconds)}.\nYour score has been submitted!'),
         actions: [
           TextButton(
             onPressed: () {

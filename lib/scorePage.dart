@@ -34,7 +34,7 @@ class ScorePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.emoji_events, size: 80, color: Colors.amber),
+              const Icon(Icons.thumb_up, size: 80, color: Colors.green),
               const SizedBox(height: 16),
               Text(
                 'Already Completed!',
