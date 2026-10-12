@@ -87,21 +87,13 @@ class _Homepage2State extends State<Homepage2> {
     final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 5,
         toolbarHeight: 55,
-        title: Expanded(
-          child: Column(
-            children: [
-              Text(
-                'Brainy Challenge',
-                style: GoogleFonts.playfairDisplay(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600),
-              ),
-              //Text('Brainy Challenge!'),
-            ],
-          ),
+        title: Text(
+          'Brainy Challenge',
+          style: GoogleFonts.playfairDisplay(
+              fontStyle: FontStyle.italic,
+              fontSize: 32,
+              fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
@@ -162,7 +154,7 @@ class _Homepage2State extends State<Homepage2> {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 300),
                     child: CarouselView(
-                      itemExtent: width / 2,
+                      itemExtent: width * 3 / 4,
                       controller: controller,
                       itemSnapping: true,
                       onTap: (int index) {

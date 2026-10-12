@@ -25,7 +25,7 @@ class HeroLayoutCard extends StatelessWidget {
         children: <Widget>[
           ClipRect(
             child: OverflowBox(
-              maxWidth: width * 2 / 8,
+              maxWidth: width * 3 / 8,
               minWidth: width * 2 / 8,
               child: Image(
                 alignment: Alignment.topCenter,
@@ -48,7 +48,7 @@ class HeroLayoutCard extends StatelessWidget {
                   softWrap: false,
                   style: Theme.of(
                     context,
-                  ).textTheme.headlineLarge?.copyWith(
+                  ).textTheme.headlineMedium?.copyWith(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
