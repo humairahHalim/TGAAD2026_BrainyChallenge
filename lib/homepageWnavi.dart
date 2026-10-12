@@ -84,6 +84,7 @@ class _Homepage2State extends State<Homepage2> {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 5,
@@ -157,10 +158,11 @@ class _Homepage2State extends State<Homepage2> {
                   ),
 
                   */
+
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 300),
                     child: CarouselView(
-                      itemExtent: 250,
+                      itemExtent: width / 2,
                       controller: controller,
                       itemSnapping: true,
                       onTap: (int index) {

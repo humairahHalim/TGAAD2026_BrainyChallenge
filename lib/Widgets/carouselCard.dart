@@ -25,8 +25,8 @@ class HeroLayoutCard extends StatelessWidget {
         children: <Widget>[
           ClipRect(
             child: OverflowBox(
-              maxWidth: width * 3 / 8,
-              minWidth: width * 3 / 8,
+              maxWidth: width * 2 / 8,
+              minWidth: width * 2 / 8,
               child: Image(
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fitHeight,
