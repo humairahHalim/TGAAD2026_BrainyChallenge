@@ -95,7 +95,7 @@ class _Homepage2State extends State<Homepage2> {
                 'Brainy Challenge',
                 style: GoogleFonts.playfairDisplay(
                     fontStyle: FontStyle.italic,
-                    fontSize: 42,
+                    fontSize: 32,
                     fontWeight: FontWeight.w600),
               ),
               //Text('Brainy Challenge!'),
@@ -160,7 +160,7 @@ class _Homepage2State extends State<Homepage2> {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 300),
                     child: CarouselView(
-                      itemExtent: 350,
+                      itemExtent: 250,
                       controller: controller,
                       itemSnapping: true,
                       onTap: (int index) {

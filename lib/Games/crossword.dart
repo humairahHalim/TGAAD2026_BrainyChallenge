@@ -408,7 +408,7 @@ class _CrosswordPageState extends State<Crossword> {
                                   controller: controllers[r][c],
                                   focusNode: focusNodes[r][c],
                                   enabled: !isGameFinished,
-                                  textAlign: TextAlign.center,
+                                  textAlign: TextAlign.start,
                                   keyboardType: TextInputType.text,
                                   textCapitalization:
                                       TextCapitalization.characters,
