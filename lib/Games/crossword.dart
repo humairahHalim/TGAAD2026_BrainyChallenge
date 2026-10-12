@@ -396,7 +396,7 @@ class _CrosswordPageState extends State<Crossword> {
                                   child: Text(
                                     '${numberGrid[r][c]}',
                                     style: const TextStyle(
-                                      fontSize: 4,
+                                      fontSize: 6,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black87,
                                     ),
@@ -404,38 +404,34 @@ class _CrosswordPageState extends State<Crossword> {
                                 ),
                               // Text Input
                               Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: TextField(
-                                    controller: controllers[r][c],
-                                    focusNode: focusNodes[r][c],
-                                    enabled: !isGameFinished,
-                                    textAlign: TextAlign.center,
-                                    keyboardType: TextInputType.text,
-                                    textCapitalization:
-                                        TextCapitalization.characters,
-                                    maxLength: 1,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    decoration: const InputDecoration(
-                                      counterText: '',
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.zero,
-                                    ),
-                                    onTap: () {
-                                      // Find clue associated with cell
-                                      setState(() {
-                                        selectedClue = clues.firstWhere(
-                                          (cl) => _isCellInClue(r, c, cl),
-                                          orElse: () => clues.first,
-                                        );
-                                      });
-                                    },
-                                    onChanged: (val) =>
-                                        _onCellChanged(val, r, c),
+                                child: TextField(
+                                  controller: controllers[r][c],
+                                  focusNode: focusNodes[r][c],
+                                  enabled: !isGameFinished,
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.text,
+                                  textCapitalization:
+                                      TextCapitalization.characters,
+                                  maxLength: 1,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
                                   ),
+                                  decoration: const InputDecoration(
+                                    counterText: '',
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                                  onTap: () {
+                                    // Find clue associated with cell
+                                    setState(() {
+                                      selectedClue = clues.firstWhere(
+                                        (cl) => _isCellInClue(r, c, cl),
+                                        orElse: () => clues.first,
+                                      );
+                                    });
+                                  },
+                                  onChanged: (val) => _onCellChanged(val, r, c),
                                 ),
                               ),
                             ],
